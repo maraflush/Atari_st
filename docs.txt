@@ -1,0 +1,8 @@
+Voici plusieurs liens interessants à porter de main :
+- tos.hyp :
+  https://freemint.github.io/tos.hyp/
+- memory map de l'atari st :
+  http://retrospec.sgn.net/users/tomcat/miodrag/Atari_ST/Atari%20ST%20Internals.htm
+- Atari compendium :
+  http://info-coach.fr/atari/software/_development/Atari-Compendium.pdf
+
