@@ -41,13 +41,25 @@ void main()
   // ------------------------------------------------------
   // * Sauvegarde de la résolution et des adresses écrans *
   // ------------------------------------------------------
+  /* Phybase :
+   * https://freemint.github.io/tos.hyp/en/Screen_functions.html#Physbase
+   */
   Ecran_Phys = Physbase();
+  /* Logbase :
+   * https://freemint.github.io/tos.hyp/en/Screen_functions.html#Logbase
+   */
   Ecran_Log = Logbase();
+  /* Getrez :
+   * https://freemint.github.io/tos.hyp/en/Screen_functions.html#Getrez
+   */
   Ecran_Mode_Video = Getrez();
   
   // ----------
   // * Mode 0 * 
   // ----------
+  /* Setscreen :
+   * https://freemint.github.io/tos.hyp/en/Screen_functions.html#Setscreen
+   */
   Setscreen(Ecran_Phys,Ecran_Log,0);
   
   // -------------------------------
@@ -55,27 +67,42 @@ void main()
   // -------------------------------
   for (i=0;i<16;i++)
   {
+    /* Setcolor :
+     * https://freemint.github.io/tos.hyp/en/Screen_functions.html#Setcolor
+     */
     buffer_palette[i] = Setcolor(i,-1);
   }
 
   // -------------------------
   // * Chargement de l'image *
-  // -------------------------
+  // -------------------------A
+  /* Fopen :
+   * https://freemint.github.io/tos.hyp/en/gemdos_file.html#Fopen
+   */
   id_image_lenna = Fopen("LENNA.PI1",0);
   
   // -------------------------------
   // * Placer les donnés en buffer *
   // -------------------------------
+  /* Fread :
+   * https://freemint.github.io/tos.hyp/en/gemdos_file.html#Fread
+   */
   Fread(id_image_lenna,32034,buffer);
 
   // ------------------
   // * Fermer l'image *
   // ------------------
+  /* Fclose :
+   * https://freemint.github.io/tos.hyp/en/gemdos_file.html#Fclose
+   */
   Fclose(id_image_lenna);
  
   // ------------------------------------------
   // * Configuration de la palette de couleur *
   // ------------------------------------------
+  /* Setpalette :
+   * https://freemint.github.io/tos.hyp/en/Screen_functions.html#Setpalette
+   */
   Setpalette(buffer+2);
 
   // ---------------------------------------
@@ -86,6 +113,9 @@ void main()
   // -----------------------
   // * Attendre une touche *
   // -----------------------
+  /* Cconin :
+   * https://freemint.github.io/tos.hyp/en/gemdos_chrinout.html#Cconin
+   */
   Cconin();
 
   // -------------------------------------------------
@@ -95,8 +125,13 @@ void main()
   /*
     La palette écran se met à jour après Vsync();
   */
-
+  /* Setscreen :
+   * https://freemint.github.io/tos.hyp/en/Screen_functions.html#Setscreen
+   */
   Setscreen(Ecran_Phys,Ecran_Log,Ecran_Mode_Video);
+  /* Setpalette :
+   * https://freemint.github.io/tos.hyp/en/Screen_functions.html#Setpalette
+   */
   Setpalette(buffer_palette);
   Vsync();
 }

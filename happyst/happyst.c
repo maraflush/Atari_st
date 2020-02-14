@@ -29,6 +29,9 @@ unsigned char picture_buffer[32034];
 // ===================
 void bip_clavier_off() 
 {
+   /* Supexec :
+    * https://freemint.github.io/tos.hyp/en/xbios_special.html#Supexec
+    */
    Supexec(clavier_off); 
 }
  
@@ -36,7 +39,10 @@ void bip_clavier_off()
 // * Bip Clavier On *
 // ==================
 void bip_clavier_on() 
-{ 
+{
+  /* Supexec :
+   * https://freemint.github.io/tos.hyp/en/xbios_special.html#Supexec
+   */
   Supexec(clavier_on);
 }
 
@@ -45,11 +51,17 @@ void bip_clavier_on()
 // =======================
 void clavier_off() 
 {
+   /* CONTERM :
+    * http://retrospec.sgn.net/users/tomcat/miodrag/Atari_ST/Atari%20ST%20Internals.htm
+    */
    CONTERM &= 0xFE;
 }
  
 void clavier_on() 
-{ 
+{
+  /* CONTERM :
+   * http://retrospec.sgn.net/users/tomcat/miodrag/Atari_ST/Atari%20ST%20Internals.htm
+   */
   CONTERM |= 0x01;
 }
 
@@ -77,6 +89,9 @@ void save_init_st()
   // -------------------------------------
   for (i=0;i<16;i++)
   {
+    /* Setcolor :
+     * https://freemint.github.io/tos.hyp/en/Screen_functions.html#Setcolor
+     */
     Save_Buffer_Palette[i] = Setcolor(i,-1);
   }
 
@@ -87,7 +102,13 @@ void save_init_st()
 // ===================
 void restore_init_st()
 {
+  /* Setscreen :
+   * https://freemint.github.io/tos.hyp/en/Screen_functions.html#Setscreen
+   */
   Setscreen(Save_Ecran_Phys,Save_Ecran_Log,Save_Ecran_Mode_Video);
+  /* Setpalette :
+   * https://freemint.github.io/tos.hyp/en/Screen_functions.html#Setpalette
+   */
   Setpalette(Save_Buffer_Palette);
   Vsync();
 }
@@ -101,27 +122,41 @@ void load_picture(char* name)
   // -------------------------
   // * Chargement de l'image *
   // -------------------------
-  
+  /* Fopen :
+   * https://freemint.github.io/tos.hyp/en/gemdos_file.html#Fopen
+   */
   id_image = Fopen(name,0);
   
   // -------------------------------
   // * Placer les donnés en buffer *
   // -------------------------------
+  /* Fread :
+   * https://freemint.github.io/tos.hyp/en/gemdos_file.html#Fread
+   */
   Fread(id_image,32034,picture_buffer);
 
   // ---------------------
   // * Fermer le fichier *
   // ---------------------
+  /* Fclose :
+   * https://freemint.github.io/tos.hyp/en/gemdos_file.html#Fclose
+   */
   Fclose(id_image);
 
   // ------------------------------------------
   // * Configuration de la palette de couleur *
   // ------------------------------------------
+  /* Setpalette :
+   * https://freemint.github.io/tos.hyp/en/Screen_functions.html#Setpalette
+   */
   Setpalette(picture_buffer+2);
 
   // ---------------------------------------
   // * Afficher l'image à l'écran physique *
   // ---------------------------------------
+  /* Phybase :
+   * https://freemint.github.io/tos.hyp/en/Screen_functions.html#Physbase
+   */
   memcpy(Physbase(),picture_buffer+34,32034-34);
 }
 
@@ -134,8 +169,14 @@ short get_keyboard()
 {
   short id_key;
 
+  /* Cconis :
+   * https://freemint.github.io/tos.hyp/en/gemdos_chrinout.html#Cconis
+   */
   if(Cconis()!= 0)
-  {     
+  {
+    /* Crawcin :
+     * https://freemint.github.io/tos.hyp/en/gemdos_chrinout.html#Crawcin
+     */
     id_key = Crawcin()>>16; 
   }
 
@@ -150,5 +191,8 @@ void draw_text(unsigned char position_x,unsigned char position_y,char* texte,uns
 {
   printf( CURS_LOC, 32+position_y, 32+position_x ); fflush(stdout);
   printf(CHAR_COLOR , couleur);fflush(stdout);
+  /* Cconws :
+   * https://freemint.github.io/tos.hyp/en/gemdos_chrinout.html#Cconws
+   */
   Cconws(texte);
 }
